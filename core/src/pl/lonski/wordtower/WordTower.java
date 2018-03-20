@@ -16,9 +16,9 @@ public class WordTower extends ApplicationAdapter {
 	@Override
 	public void create() {
 		world = new WorldManager();
-		dictionary = new Dictionary(Gdx.files.internal("assets/words.txt"));
+		dictionary = new Dictionary(Gdx.files.internal("words.txt"));
 		loader = new StageLoader(dictionary, world, loadSkin());
-		stage = loader.load("test.lev");
+		stage = loader.load(Gdx.files.local("levels/test.lev"));
 		Gdx.input.setInputProcessor(stage);
 	}
 
@@ -37,10 +37,10 @@ public class WordTower extends ApplicationAdapter {
 	}
 
 	private Skin loadSkin() {
-		Skin skin = new Skin(Gdx.files.internal("assets/skins/visui/uiskin.json"));
+		Skin skin = new Skin(Gdx.files.internal("skins/visui/uiskin.json"));
 		skin.add(
 				"currier-font",
-				new BitmapFont(Gdx.files.internal("assets/fonts/currier.fnt")),
+				new BitmapFont(Gdx.files.internal("fonts/currier.fnt")),
 				BitmapFont.class
 		);
 		return skin;

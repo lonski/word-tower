@@ -3,6 +3,7 @@ package pl.lonski.wordtower;
 import java.util.*;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class StageLoader {
@@ -17,8 +18,8 @@ class StageLoader {
 		this.skin = skin;
 	}
 
-	public PlayStage load(String name) {
-		return new PlayStage(createWords(readLevelFile(name)));
+	public PlayStage load(FileHandle levelFile) {
+		return new PlayStage(createWords(readLevelFile(levelFile)));
 	}
 
 	private List<Word> createWords(List<String> lines) {
@@ -63,12 +64,8 @@ class StageLoader {
 		return words;
 	}
 
-	private List<String> readLevelFile(String name) {
-		List<String> lines = Arrays.asList(
-				Gdx.files.local("assets/levels/" + name)
-						.readString()
-						.split("\n")
-		);
+	private List<String> readLevelFile(FileHandle levelFile) {
+		List<String> lines = Arrays.asList(levelFile.readString().split("\n"));
 		Collections.reverse(lines);
 		return lines;
 	}
