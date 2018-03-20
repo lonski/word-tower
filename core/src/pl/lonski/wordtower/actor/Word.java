@@ -51,8 +51,6 @@ public class Word extends Group implements KeyProcessor {
 		this.box.setPosition(0, 0);
 		this.addActor(box);
 		this.body = createBody(world);
-
-		((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
 	}
 
 	@Override
@@ -74,7 +72,6 @@ public class Word extends Group implements KeyProcessor {
 				setVisible(false); //TODO
 				world.destroyBody(body);
 			}
-			return true;
 		}
 
 		return false;

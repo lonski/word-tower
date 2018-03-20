@@ -1,4 +1,4 @@
-package pl.lonski.wordtower;
+package pl.lonski.wordtower.physic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
