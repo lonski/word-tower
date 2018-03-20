@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class WordTower extends ApplicationAdapter {
@@ -12,7 +11,7 @@ public class WordTower extends ApplicationAdapter {
 	private WorldManager world;
 	private Dictionary dictionary;
 	private StageLoader loader;
-	private Stage stage;
+	private PlayStage stage;
 
 	@Override
 	public void create() {
@@ -20,6 +19,7 @@ public class WordTower extends ApplicationAdapter {
 		dictionary = new Dictionary(Gdx.files.internal("assets/words.txt"));
 		loader = new StageLoader(dictionary, world, loadSkin());
 		stage = loader.load("test.lev");
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override

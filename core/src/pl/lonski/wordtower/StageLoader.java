@@ -3,8 +3,6 @@ package pl.lonski.wordtower;
 import java.util.*;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class StageLoader {
@@ -13,25 +11,18 @@ class StageLoader {
 	private final WorldManager worldManager;
 	private final Skin skin;
 
-	private Stage stage;
-	private List<Word> words;
-
 	StageLoader(Dictionary dictionary, WorldManager world, Skin skin) {
 		this.dictionary = dictionary;
 		this.worldManager = world;
 		this.skin = skin;
 	}
 
-	public Stage load(String name) {
-		createWords(readLevelFile(name));
-		createStage();
-		configureInputProcessor();
-
-		return stage;
+	public PlayStage load(String name) {
+		return new PlayStage(createWords(readLevelFile(name)));
 	}
 
-	private void createWords(List<String> lines) {
-		this.words = new ArrayList<>();
+	private List<Word> createWords(List<String> lines) {
+		List<Word> words = new ArrayList<>();
 
 		float symbolWidth = (float) Gdx.graphics.getWidth() / (float) lines.get(0).length();
 		float yOffset = 0;
@@ -49,12 +40,10 @@ class StageLoader {
 				}
 				if (ch == ']') {
 					inWord = false;
-					String text = dictionary.getRandomWord(wordLength - 1);
-					System.out.println(String.format("<%s> %d", text, text.length()));
 					Word word = new Word(
 							worldManager.getWorld(),
 							skin,
-							text,
+							dictionary.getRandomWord(wordLength - 1),
 							xOffset,
 							yOffset
 					);
@@ -70,18 +59,8 @@ class StageLoader {
 				yOffset += words.get(words.size() - 1).getHeight();
 			}
 		}
-	}
 
-	private void createStage() {
-		this.stage = new Stage();
-		words.forEach(stage::addActor);
-	}
-
-	private void configureInputProcessor() {
-		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		inputMultiplexer.addProcessor(stage);
-		words.forEach(inputMultiplexer::addProcessor);
-		Gdx.input.setInputProcessor(inputMultiplexer);
+		return words;
 	}
 
 	private List<String> readLevelFile(String name) {

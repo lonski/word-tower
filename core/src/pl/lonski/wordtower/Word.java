@@ -15,9 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import pl.lonski.wordtower.KeyProcessor;
-
-class Word extends Group implements KeyProcessor {
+class Word extends Group {
 
 	private final World world;
 	private final Body body;
@@ -62,22 +60,20 @@ class Word extends Group implements KeyProcessor {
 		setRotation((float) Math.toDegrees(body.getAngle()));
 	}
 
-	@Override
-	public boolean keyTyped(char character) {
-		if (characterIdx >= text.length()) {
-			return false;
-		}
-
-		if (character == text.charAt(characterIdx)) {
+	void eatCharacter(char character) {
+		if (!isCompleted() && character == text.charAt(characterIdx)) {
 			letters.get(characterIdx).setStyle(styleTyped);
 			++characterIdx;
-			if (characterIdx == text.length()) {
-				setVisible(false);
-				world.destroyBody(body);
-			}
 		}
+	}
 
-		return false;
+	boolean isCompleted() {
+		return characterIdx == text.length();
+	}
+
+	void reset() {
+		letters.forEach(w -> w.setStyle(styleUntyped));
+		characterIdx = 0;
 	}
 
 	private Body createBody(World world) {
@@ -102,6 +98,12 @@ class Word extends Group implements KeyProcessor {
 		shape.dispose();
 
 		return body;
+	}
+
+	@Override
+	public boolean remove() {
+		world.destroyBody(body);
+		return super.remove();
 	}
 
 	static class Box extends Actor {
