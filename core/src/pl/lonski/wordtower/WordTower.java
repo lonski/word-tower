@@ -18,7 +18,7 @@ public class WordTower extends ApplicationAdapter {
 		world = new WorldManager();
 		dictionary = new Dictionary(Gdx.files.internal("words.txt"));
 		loader = new StageLoader(dictionary, world, loadSkin());
-		stage = loader.load(Gdx.files.local("levels/test.lev"));
+		stage = loader.load(Gdx.files.local("levels/s1.lev"));
 		Gdx.input.setInputProcessor(stage);
 	}
 
