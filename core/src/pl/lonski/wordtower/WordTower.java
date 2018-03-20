@@ -12,13 +12,15 @@ import pl.lonski.wordtower.physic.WorldManager;
 public class WordTower extends ApplicationAdapter {
 
 	private WorldManager world;
+	private Dictionary dictionary;
 	private StageLoader loader;
 	private Stage stage;
 
 	@Override
 	public void create() {
 		world = new WorldManager();
-		loader = new StageLoader(world, loadSkin());
+		dictionary = new Dictionary(Gdx.files.internal("assets/words.txt"));
+		loader = new StageLoader(dictionary, world, loadSkin());
 		stage = loader.load("test.lev");
 	}
 

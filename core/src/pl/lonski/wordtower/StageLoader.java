@@ -1,6 +1,5 @@
 package pl.lonski.wordtower;
 
-import java.security.SecureRandom;
 import java.util.*;
 
 import com.badlogic.gdx.Gdx;
@@ -13,13 +12,15 @@ import pl.lonski.wordtower.physic.WorldManager;
 
 public class StageLoader {
 
+	private final Dictionary dictionary;
 	private final WorldManager worldManager;
 	private final Skin skin;
 
 	private Stage stage;
 	private List<Word> words;
 
-	public StageLoader(WorldManager world, Skin skin) {
+	public StageLoader(Dictionary dictionary, WorldManager world, Skin skin) {
+		this.dictionary = dictionary;
 		this.worldManager = world;
 		this.skin = skin;
 	}
@@ -51,10 +52,12 @@ public class StageLoader {
 				}
 				if (ch == ']') {
 					inWord = false;
+					String text = dictionary.getRandomWord(wordLength - 1);
+					System.out.println(String.format("<%s> %d", text, text.length()));
 					Word word = new Word(
 							worldManager.getWorld(),
 							skin,
-							randomString(wordLength - 1),
+							text,
 							xOffset,
 							yOffset
 					);
@@ -94,15 +97,5 @@ public class StageLoader {
 		return lines;
 	}
 
-	static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	static SecureRandom rnd = new SecureRandom();
-
-	String randomString(int len) {
-		StringBuilder sb = new StringBuilder(len);
-		for (int i = 0; i < len; i++) {
-			sb.append(AB.charAt(rnd.nextInt(AB.length())));
-		}
-		return sb.toString();
-	}
 
 }
