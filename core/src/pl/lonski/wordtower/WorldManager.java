@@ -1,26 +1,31 @@
-package pl.lonski.wordtower.physic;
+package pl.lonski.wordtower;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class WorldManager {
+class WorldManager {
 
 	private World world;
 	private Box2DDebug debugRender;
 
-	public WorldManager() {
+	WorldManager() {
 		world = new World(new Vector2(0, -100), true);
 		createFloor();
 		debugRender = new Box2DDebug();
 	}
 
-	public World getWorld() {
+	World getWorld() {
 		return world;
 	}
 
-	public void update(float delta) {
+	void update(float delta) {
 		world.step(delta, 6, 2);
+	}
+
+	void debugDraw() {
+		debugRender.render(world);
 	}
 
 	private void createFloor() {
@@ -41,7 +46,20 @@ public class WorldManager {
 		edgeShape.dispose();
 	}
 
-	public void debugDraw() {
-		debugRender.render(world);
+	private static class Box2DDebug {
+
+		private OrthographicCamera camera;
+		private Box2DDebugRenderer debugRenderer;
+
+		Box2DDebug() {
+			camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			camera.setToOrtho(false);
+			debugRenderer = new Box2DDebugRenderer();
+		}
+
+		void render(World world) {
+			camera.update();
+			debugRenderer.render(world, camera.combined);
+		}
 	}
 }

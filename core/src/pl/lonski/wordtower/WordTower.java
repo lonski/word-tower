@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import pl.lonski.wordtower.physic.WorldManager;
-
 public class WordTower extends ApplicationAdapter {
 
 	private WorldManager world;

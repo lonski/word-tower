@@ -7,10 +7,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import pl.lonski.wordtower.actor.Word;
-import pl.lonski.wordtower.physic.WorldManager;
-
-public class StageLoader {
+class StageLoader {
 
 	private final Dictionary dictionary;
 	private final WorldManager worldManager;
@@ -19,7 +16,7 @@ public class StageLoader {
 	private Stage stage;
 	private List<Word> words;
 
-	public StageLoader(Dictionary dictionary, WorldManager world, Skin skin) {
+	StageLoader(Dictionary dictionary, WorldManager world, Skin skin) {
 		this.dictionary = dictionary;
 		this.worldManager = world;
 		this.skin = skin;

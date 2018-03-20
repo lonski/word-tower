@@ -9,20 +9,20 @@ import java.util.stream.Stream;
 
 import com.badlogic.gdx.files.FileHandle;
 
-public class Dictionary {
+class Dictionary {
 
 	private static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	private static SecureRandom rnd = new SecureRandom();
 
 	private final Map<Integer, List<String>> words;
 
-	public Dictionary(FileHandle file) {
+	Dictionary(FileHandle file) {
 		words = Stream.of(file.readString().split("\n"))
 				.map(String::trim)
 				.collect(groupingBy(String::length));
 	}
 
-	public String getRandomWord(int length) {
+	String getRandomWord(int length) {
 		List<String> list = words.get(length);
 		if (list == null) {
 			return randomString(length);

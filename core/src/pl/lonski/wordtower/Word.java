@@ -1,20 +1,23 @@
-package pl.lonski.wordtower.actor;
+package pl.lonski.wordtower;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import pl.lonski.wordtower.KeyProcessor;
 
-public class Word extends Group implements KeyProcessor {
+class Word extends Group implements KeyProcessor {
 
 	private final World world;
 	private final Body body;
@@ -26,7 +29,7 @@ public class Word extends Group implements KeyProcessor {
 
 	private int characterIdx;
 
-	public Word(World world, Skin skin, String text, float x, float y) {
+	Word(World world, Skin skin, String text, float x, float y) {
 		this.world = world;
 		this.letters = new ArrayList<>();
 		this.text = text;
@@ -69,7 +72,7 @@ public class Word extends Group implements KeyProcessor {
 			letters.get(characterIdx).setStyle(styleTyped);
 			++characterIdx;
 			if (characterIdx == text.length()) {
-				setVisible(false); //TODO
+				setVisible(false);
 				world.destroyBody(body);
 			}
 		}
@@ -99,6 +102,38 @@ public class Word extends Group implements KeyProcessor {
 		shape.dispose();
 
 		return body;
+	}
+
+	static class Box extends Actor {
+
+		private TextureRegion texture;
+
+		Box(int width, int height, Color color) {
+			texture = new TextureRegion(createTexture(width, height, color));
+			setBounds(0, 0, width, height);
+		}
+
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			batch.draw(
+					texture,
+					getX(), getY(),
+					getOriginX(), getOriginY(),
+					getWidth(), getHeight(),
+					getScaleX(),
+					getScaleY(),
+					getRotation()
+			);
+		}
+
+		private Texture createTexture(int width, int height, Color color) {
+			Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+			pixmap.setColor(color);
+			pixmap.drawRectangle(0, 0, width, height);
+			Texture texture = new Texture(pixmap);
+			pixmap.dispose();
+			return texture;
+		}
 	}
 
 }
