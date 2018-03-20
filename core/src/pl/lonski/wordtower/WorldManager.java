@@ -12,7 +12,13 @@ class WorldManager {
 
 	WorldManager() {
 		world = new World(new Vector2(0, -100), true);
-		createFloor();
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+
+		createWall(0, 0, w, 1); //floor
+		createWall(0, 0, 1, h); //left
+		createWall(w, 0,1, h); //right
+
 		debugRender = new Box2DDebug();
 	}
 
@@ -28,23 +34,22 @@ class WorldManager {
 		debugRender.render(world);
 	}
 
-	private void createFloor() {
+	private void createWall(float x, float y, float hx, float hy) {
 		BodyDef floorDef = new BodyDef();
 		floorDef.type = BodyDef.BodyType.StaticBody;
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
 
-		floorDef.position.set(0, h / 2);
+		floorDef.position.set(x, y);
 		FixtureDef fixtureDef3 = new FixtureDef();
 
-		EdgeShape edgeShape = new EdgeShape();
-		edgeShape.set(0, -h / 2, w, -h / 2);
-		fixtureDef3.shape = edgeShape;
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(hx, hy);
+		fixtureDef3.shape = shape;
 
 		Body floor = world.createBody(floorDef);
 		floor.createFixture(fixtureDef3);
-		edgeShape.dispose();
+		shape.dispose();
 	}
+
 
 	private static class Box2DDebug {
 
