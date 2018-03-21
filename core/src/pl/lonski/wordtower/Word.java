@@ -27,10 +27,11 @@ class Word extends Group {
 
 	private int characterIdx;
 
-	Word(World world, Skin skin, String text, float x, float y) {
+	Word(World world, String text, float x, float y) {
 		this.world = world;
 		this.letters = new ArrayList<>();
 		this.text = text;
+		Skin skin = SkinProvider.getSkin();
 		this.styleTyped = new Label.LabelStyle(skin.getFont("currier-font"), Color.RED);
 		this.styleUntyped = new Label.LabelStyle(skin.getFont("currier-font"), Color.GREEN);
 

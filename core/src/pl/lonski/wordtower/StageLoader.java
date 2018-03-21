@@ -4,18 +4,15 @@ import java.util.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class StageLoader {
 
 	private final Dictionary dictionary;
 	private final WorldManager worldManager;
-	private final Skin skin;
 
 	StageLoader(Dictionary dictionary, WorldManager world) {
 		this.dictionary = dictionary;
 		this.worldManager = world;
-		this.skin = SkinProvider.getSkin();
 	}
 
 	public PlayStage load(FileHandle levelFile) {
@@ -43,7 +40,6 @@ class StageLoader {
 					inWord = false;
 					Word word = new Word(
 							worldManager.getWorld(),
-							skin,
 							dictionary.getRandomWord(wordLength - 1),
 							xOffset,
 							yOffset
