@@ -12,10 +12,10 @@ class StageLoader {
 	private final WorldManager worldManager;
 	private final Skin skin;
 
-	StageLoader(Dictionary dictionary, WorldManager world, Skin skin) {
+	StageLoader(Dictionary dictionary, WorldManager world) {
 		this.dictionary = dictionary;
 		this.worldManager = world;
-		this.skin = skin;
+		this.skin = SkinProvider.getSkin();
 	}
 
 	public PlayStage load(FileHandle levelFile) {
