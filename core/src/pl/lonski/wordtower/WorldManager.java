@@ -1,23 +1,30 @@
 package pl.lonski.wordtower;
 
+import java.util.function.Consumer;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 
 class WorldManager {
 
 	private World world;
 	private Box2DDebug debugRender;
 
+	private Body floor;
+	private Body leftWall;
+	private Body rightWall;
+
 	WorldManager() {
 		world = new World(new Vector2(0, -100), true);
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
-		createWall(0, 0, w, 1); //floor
-		createWall(0, 0, 1, h); //left
-		createWall(w, 0,1, h); //right
+		floor = createWall(0, 0, w, 1);
+		leftWall = createWall(0, 0, 1, h);
+		rightWall = createWall(w, 0, 1, h);
 
 		debugRender = new Box2DDebug();
 	}
@@ -28,26 +35,53 @@ class WorldManager {
 
 	void update(float delta) {
 		world.step(delta, 6, 2);
+
+		Array<Body> bodies = new Array<>();
+		world.getBodies(bodies);
+		for (Body b : bodies) {
+			BodyUserData data = (BodyUserData) b.getUserData();
+			if (data != null) {
+				if (data.isDeleteFlag()) {
+					world.destroyBody(b);
+				}
+			}
+		}
 	}
 
 	void debugDraw() {
 		debugRender.render(world);
 	}
 
-	private void createWall(float x, float y, float hx, float hy) {
-		BodyDef floorDef = new BodyDef();
-		floorDef.type = BodyDef.BodyType.StaticBody;
+	void setFloorCollisionHandler(Consumer<Body> handler) {
+		world.setContactListener((CollisionHandler) contact -> {
+			Body a = contact.getFixtureA().getBody();
+			Body b = contact.getFixtureB().getBody();
+			if (a == floor || b == floor) {
+				if (a == floor && b != leftWall && b != rightWall) {
+					handler.accept(b);
+				} else if (b == floor && a != leftWall && a != rightWall) {
+					handler.accept(a);
+				}
+			}
+		});
 
-		floorDef.position.set(x, y);
+	}
+
+	private Body createWall(float x, float y, float hx, float hy) {
+		BodyDef wallDef = new BodyDef();
+		wallDef.type = BodyDef.BodyType.StaticBody;
+
+		wallDef.position.set(x, y);
 		FixtureDef fixtureDef3 = new FixtureDef();
 
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(hx, hy);
 		fixtureDef3.shape = shape;
 
-		Body floor = world.createBody(floorDef);
-		floor.createFixture(fixtureDef3);
+		Body body = world.createBody(wallDef);
+		body.createFixture(fixtureDef3);
 		shape.dispose();
+		return body;
 	}
 
 

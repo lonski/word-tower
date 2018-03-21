@@ -10,12 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class PlayStage extends Stage {
 
-	private Label wordCounter;
 	private int wordsTyped;
+	private Label wordCounter;
+	private int wordsLostCounter;
+	private Label wordsLost;
 	private Label.LabelStyle hudLabelStyle;
 	private List<Word> words;
 
-	PlayStage(List<Word> words) {
+	PlayStage(List<Word> words, WorldManager worldManager) {
 		this.words = words;
 		this.words.forEach(this::addActor);
 
@@ -23,6 +25,11 @@ class PlayStage extends Stage {
 		this.hudLabelStyle = new Label.LabelStyle(skin.getFont("currier-font"), Color.BLUE);
 
 		createWordsCounter();
+		createLostWordsCounter();
+
+		worldManager.setFloorCollisionHandler(body -> {
+			words.stream().filter(w -> w.getBody() == body).findFirst().ifPresent(this::looseWord);
+		});
 	}
 
 	private void createWordsCounter() {
@@ -31,9 +38,10 @@ class PlayStage extends Stage {
 		addActor(wordCounter);
 	}
 
-	private void incWordCounter() {
-		wordsTyped++;
-		wordCounter.setText("Words typed: " + wordsTyped);
+	private void createLostWordsCounter() {
+		wordsLost = new Label("Words lost: 0", hudLabelStyle);
+		wordsLost.setPosition(10, Gdx.graphics.getHeight() - wordsLost.getHeight() * 2 - 10);
+		addActor(wordsLost);
 	}
 
 	@Override
@@ -41,17 +49,25 @@ class PlayStage extends Stage {
 		for (Word word : words) {
 			word.eatCharacter(character);
 			if (word.isCompleted()) {
-				removeWord(word);
-				incWordCounter();
+				scoreWord(word);
 				break;
 			}
 		}
 		return true;
 	}
 
-	private void removeWord(Word word) {
+	private void scoreWord(Word word) {
 		word.remove();
 		words.remove(word);
 		words.forEach(Word::reset);
+		wordsTyped++;
+		wordCounter.setText("Words typed: " + wordsTyped);
+	}
+
+	private void looseWord(Word word) {
+		word.remove();
+		words.remove(word);
+		wordsLostCounter++;
+		wordsLost.setText("Words lost: " + wordsLostCounter);
 	}
 }

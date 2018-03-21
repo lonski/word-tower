@@ -55,6 +55,10 @@ class Word extends Group {
 		this.body = createBody(world);
 	}
 
+	public Body getBody() {
+		return body;
+	}
+
 	@Override
 	public void act(float delta) {
 		setPosition(body.getPosition().x, body.getPosition().y);
@@ -103,7 +107,7 @@ class Word extends Group {
 
 	@Override
 	public boolean remove() {
-		world.destroyBody(body);
+		body.setUserData(new BodyUserData().setDeleteFlag(true));
 		return super.remove();
 	}
 

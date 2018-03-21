@@ -16,7 +16,9 @@ class StageLoader {
 	}
 
 	public PlayStage load(FileHandle levelFile) {
-		return new PlayStage(createWords(readLevelFile(levelFile)));
+		List<Word> words = createWords(readLevelFile(levelFile));
+		worldManager.update(1 / 30f);
+		return new PlayStage(words, worldManager);
 	}
 
 	private List<Word> createWords(List<String> lines) {
