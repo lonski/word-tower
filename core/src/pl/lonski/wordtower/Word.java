@@ -69,6 +69,8 @@ class Word extends Group {
 		if (!isCompleted() && character == text.charAt(characterIdx)) {
 			letters.get(characterIdx).setStyle(styleTyped);
 			++characterIdx;
+		}else if (characterIdx > 0) {
+			reset();
 		}
 	}
 
