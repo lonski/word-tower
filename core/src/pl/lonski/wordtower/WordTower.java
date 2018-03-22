@@ -10,14 +10,15 @@ public class WordTower extends ApplicationAdapter {
 	private Dictionary dictionary;
 	private StageLoader loader;
 	private PlayStage stage;
+	private StageIterator iterator;
 
 	@Override
 	public void create() {
 		world = new WorldManager();
 		dictionary = new Dictionary(Gdx.files.internal("words.txt"));
 		loader = new StageLoader(dictionary, world);
-		stage = loader.load(Gdx.files.local("levels/s1.lev"));
-		Gdx.input.setInputProcessor(stage);
+		iterator = new PredefinedStageIterator(loader, 2);
+		changeStage(iterator.next());
 	}
 
 	@Override
@@ -32,6 +33,15 @@ public class WordTower extends ApplicationAdapter {
 
 		stage.draw();
 //		world.debugDraw();
+
+		if (stage.getRemainingWordsCount() == 0) {
+			changeStage(iterator.next());
+		}
+	}
+
+	private void changeStage(PlayStage stage) {
+		this.stage = stage;
+		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override

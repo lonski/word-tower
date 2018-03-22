@@ -15,8 +15,9 @@ class StageLoader {
 		this.worldManager = world;
 	}
 
-	public PlayStage load(FileHandle levelFile) {
-		List<Word> words = createWords(readLevelFile(levelFile));
+	public PlayStage load(String filepath) {
+		FileHandle file = Gdx.files.internal(filepath);
+		List<Word> words = createWords(readLevelFile(file));
 		worldManager.update(1 / 30f);
 		return new PlayStage(words, worldManager);
 	}

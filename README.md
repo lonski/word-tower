@@ -1,5 +1,5 @@
 # Word Tower
-A word typing game.
+A word typing game. Type words visible on blocks on your keyboard to make them disappear and earn points. Do not let the blocks fall on the floor - they will be lost.
 
 ## Running
 

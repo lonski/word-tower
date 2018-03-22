@@ -32,6 +32,10 @@ class PlayStage extends Stage {
 		});
 	}
 
+	int getRemainingWordsCount() {
+		return words.size();
+	}
+
 	private void createWordsCounter() {
 		wordCounter = new Label("Words typed: 0", hudLabelStyle);
 		wordCounter.setPosition(10, Gdx.graphics.getHeight() - wordCounter.getHeight() - 10);
