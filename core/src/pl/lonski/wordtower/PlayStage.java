@@ -10,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class PlayStage extends Stage {
 
-	private int wordsTyped;
+	private PlayerData playerData;
 	private Label wordCounter;
-	private int wordsLostCounter;
 	private Label wordsLost;
 	private Label.LabelStyle hudLabelStyle;
 	private List<Word> words;
@@ -64,14 +63,24 @@ class PlayStage extends Stage {
 		word.remove();
 		words.remove(word);
 		words.forEach(Word::reset);
-		wordsTyped++;
-		wordCounter.setText("Words typed: " + wordsTyped);
+		playerData.setWordsTyped(playerData.getWordsTyped() + 1);
+		updateLabels();
 	}
 
 	private void looseWord(Word word) {
 		word.remove();
 		words.remove(word);
-		wordsLostCounter++;
-		wordsLost.setText("Words lost: " + wordsLostCounter);
+		playerData.setWordsMissed(playerData.getWordsMissed() + 1);
+		updateLabels();
+	}
+
+	public void setPlayerData(PlayerData playerData) {
+		this.playerData = playerData;
+		updateLabels();
+	}
+
+	private void updateLabels() {
+		wordCounter.setText("Words typed: " + playerData.getWordsTyped());
+		wordsLost.setText("Words lost: " + playerData.getWordsMissed());
 	}
 }

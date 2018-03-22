@@ -11,6 +11,7 @@ public class WordTower extends ApplicationAdapter {
 	private StageLoader loader;
 	private PlayStage stage;
 	private StageIterator iterator;
+	private PlayerData playerData;
 
 	@Override
 	public void create() {
@@ -18,6 +19,7 @@ public class WordTower extends ApplicationAdapter {
 		dictionary = new Dictionary(Gdx.files.internal("words.txt"));
 		loader = new StageLoader(dictionary, world);
 		iterator = new PredefinedStageIterator(loader, 3);
+		playerData = new PlayerData();
 		changeStage(iterator.next());
 	}
 
@@ -41,6 +43,7 @@ public class WordTower extends ApplicationAdapter {
 
 	private void changeStage(PlayStage stage) {
 		this.stage = stage;
+		stage.setPlayerData(playerData);
 		Gdx.input.setInputProcessor(stage);
 	}
 
