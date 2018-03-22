@@ -1,5 +1,5 @@
 # Word Tower
-A word typing game. Type words visible on blocks on your keyboard to make them disappear and earn points. Do not let the blocks fall on the floor - they will be lost.
+A word typing game. Type words visible on blocks on your keyboard to make them disappear and earn points. Do not let the blocks fall on the floor.
 
 ## Running
 
@@ -15,4 +15,6 @@ Enter project root and type:
 <img src="https://raw.githubusercontent.com/lonski/word-tower/master/screenshots/Screenshot_20180320_234518.png" width="400">
 <img src="https://raw.githubusercontent.com/lonski/word-tower/master/screenshots/Screenshot_20180320_230703.png" width="400">
 <img src="https://raw.githubusercontent.com/lonski/word-tower/master/screenshots/Screenshot_20180320_230740.png" width="400">
+<img src="https://raw.githubusercontent.com/lonski/word-tower/master/screenshots/Screenshot_20180322_232858.png" width="400">
+
 </p>
