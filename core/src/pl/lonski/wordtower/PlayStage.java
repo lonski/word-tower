@@ -118,15 +118,13 @@ class PlayStage extends Stage {
 		wordsLost.setText("Words lost: " + playerData.getWordsMissed());
 	}
 
-
 	class BonusLabel extends Label {
 
 		BonusLabel(int bonus, Actor word) {
 			super(bonus + " bonus!", bonusLabelStyle);
-			setX(word.getX() + random.nextInt(20) * (random.nextBoolean() ? 1 : -1));
-			setY(word.getY() + random.nextInt(20) * (random.nextBoolean() ? 1 : -1));
+			setX(word.getX() + random.nextInt((int) word.getWidth()) * (random.nextBoolean() ? 1 : -1));
+			setY(word.getY() + random.nextInt((int) word.getHeight()) * (random.nextBoolean() ? 1 : -1));
 			addAction(sequence(fadeOut(0.001f), fadeIn(0.2f), fadeOut(1f), removeActor()));
 		}
 	}
-
 }

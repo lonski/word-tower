@@ -18,7 +18,7 @@ class StageLoader {
 	public PlayStage load(String filepath) {
 		FileHandle file = Gdx.files.internal(filepath);
 		List<Word> words = createWords(readLevelFile(file));
-		worldManager.update(1 / 30f);
+		worldManager.update(1 / 30f); //single update to prevent collision detection of the words on the floor
 		return new PlayStage(words, worldManager);
 	}
 
@@ -29,7 +29,6 @@ class StageLoader {
 		float yOffset = 0;
 
 		for (String line : lines) {
-
 			float xOffset = 0;
 			boolean inWord = false;
 			int wordLength = 0;
@@ -68,6 +67,5 @@ class StageLoader {
 		Collections.reverse(lines);
 		return lines;
 	}
-
 
 }

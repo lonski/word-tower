@@ -84,7 +84,6 @@ class WorldManager {
 		return body;
 	}
 
-
 	private static class Box2DDebug {
 
 		private OrthographicCamera camera;

@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class Word extends Group {
 
-	private final World world;
 	private final Body body;
 	private final Box box;
 	private final List<Label> letters;
@@ -28,7 +27,6 @@ class Word extends Group {
 	private int characterIdx;
 
 	Word(World world, String text, float x, float y) {
-		this.world = world;
 		this.letters = new ArrayList<>();
 		this.text = text;
 		Skin skin = SkinProvider.getSkin();

@@ -1,35 +1,32 @@
 package pl.lonski.wordtower;
 
-public class PlayerData {
+class PlayerData {
 
 	private int score;
 	private int wordsTyped;
 	private int wordsMissed;
 
-	public PlayerData addScore(int score) {
+	void addScore(int score) {
 		this.score += score;
-		return this;
 	}
 
-	public int getWordsTyped() {
+	int getWordsTyped() {
 		return wordsTyped;
 	}
 
-	public PlayerData incWordsTyped() {
+	void incWordsTyped() {
 		wordsTyped++;
-		return this;
 	}
 
-	public int getWordsMissed() {
+	int getWordsMissed() {
 		return wordsMissed;
 	}
 
-	public PlayerData incWordsMissed() {
+	void incWordsMissed() {
 		wordsMissed++;
-		return this;
 	}
 
-	public int getScore() {
+	int getScore() {
 		return score;
 	}
 }

@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 public class WordTower extends ApplicationAdapter {
 
 	private WorldManager world;
-	private Dictionary dictionary;
-	private StageLoader loader;
 	private PlayStage stage;
 	private StageIterator iterator;
 	private PlayerData playerData;
@@ -16,8 +14,8 @@ public class WordTower extends ApplicationAdapter {
 	@Override
 	public void create() {
 		world = new WorldManager();
-		dictionary = new Dictionary(Gdx.files.internal("words.txt"));
-		loader = new StageLoader(dictionary, world);
+		Dictionary dictionary = new Dictionary(Gdx.files.internal("words.txt"));
+		StageLoader loader = new StageLoader(dictionary, world);
 		iterator = new PredefinedStageIterator(loader, 3);
 		playerData = new PlayerData();
 		changeStage(iterator.next());
@@ -50,5 +48,4 @@ public class WordTower extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 	}
-
 }
