@@ -2,15 +2,21 @@ package pl.lonski.wordtower;
 
 public class PlayerData {
 
+	private int score;
 	private int wordsTyped;
 	private int wordsMissed;
+
+	public PlayerData addScore(int score) {
+		this.score += score;
+		return this;
+	}
 
 	public int getWordsTyped() {
 		return wordsTyped;
 	}
 
-	public PlayerData setWordsTyped(int wordsTyped) {
-		this.wordsTyped = wordsTyped;
+	public PlayerData incWordsTyped() {
+		wordsTyped++;
 		return this;
 	}
 
@@ -18,8 +24,12 @@ public class PlayerData {
 		return wordsMissed;
 	}
 
-	public PlayerData setWordsMissed(int wordsMissed) {
-		this.wordsMissed = wordsMissed;
+	public PlayerData incWordsMissed() {
+		wordsMissed++;
 		return this;
+	}
+
+	public int getScore() {
+		return score;
 	}
 }

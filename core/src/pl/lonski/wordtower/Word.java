@@ -55,6 +55,10 @@ class Word extends Group {
 		this.body = createBody(world);
 	}
 
+	public int getSize() {
+		return text.length();
+	}
+
 	public Body getBody() {
 		return body;
 	}
@@ -69,7 +73,7 @@ class Word extends Group {
 		if (!isCompleted() && character == text.charAt(characterIdx)) {
 			letters.get(characterIdx).setStyle(styleTyped);
 			++characterIdx;
-		}else if (characterIdx > 0) {
+		} else if (characterIdx > 0) {
 			reset();
 		}
 	}
