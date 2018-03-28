@@ -1,5 +1,7 @@
 package pl.lonski.wordtower;
 
+import com.badlogic.gdx.Gdx;
+
 class PredefinedStageIterator implements StageIterator {
 
 	private final StageLoader loader;
@@ -21,6 +23,6 @@ class PredefinedStageIterator implements StageIterator {
 	public PlayStage next() {
 		lastLevel = (lastLevel + 1) % levelCount;
 		String path = "levels/s" + (lastLevel + 1) + ".lev";
-		return loader.load(path);
+		return loader.load(Gdx.files.internal(path));
 	}
 }

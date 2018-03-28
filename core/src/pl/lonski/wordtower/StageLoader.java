@@ -1,6 +1,7 @@
 package pl.lonski.wordtower;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -15,9 +16,12 @@ class StageLoader {
 		this.worldManager = world;
 	}
 
-	public PlayStage load(String filepath) {
-		FileHandle file = Gdx.files.internal(filepath);
-		List<Word> words = createWords(readLevelFile(file));
+	PlayStage load(FileHandle file) {
+		return load(readLevelFile(file));
+	}
+
+	PlayStage load(String level) {
+		List<Word> words = createWords(Arrays.asList(level.split("\n")));
 		worldManager.update(1 / 30f); //single update to prevent collision detection of the words on the floor
 		return new PlayStage(words, worldManager);
 	}
@@ -47,25 +51,25 @@ class StageLoader {
 							yOffset
 					);
 					words.add(word);
-					xOffset += word.getWidth();
+					xOffset += word.getWidth() + 0.1;
 				}
-				if (!inWord) {
+				if (!inWord && ch == '.') {
 					xOffset += symbolWidth;
 				}
 				wordLength++;
 			}
 			if (!words.isEmpty()) {
-				yOffset += words.get(words.size() - 1).getHeight();
+				yOffset += words.get(words.size() - 1).getHeight() + 0.1;
 			}
 		}
 
 		return words;
 	}
 
-	private List<String> readLevelFile(FileHandle levelFile) {
+	private String readLevelFile(FileHandle levelFile) {
 		List<String> lines = Arrays.asList(levelFile.readString().split("\n"));
 		Collections.reverse(lines);
-		return lines;
+		return lines.stream().collect(Collectors.joining("\n"));
 	}
 
 }
