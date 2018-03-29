@@ -27,6 +27,7 @@ class StageLoader {
 	}
 
 	private List<Word> createWords(List<String> lines) {
+		Collections.reverse(lines);
 		List<Word> words = new ArrayList<>();
 
 		float symbolWidth = (float) Gdx.graphics.getWidth() / (float) lines.get(0).length();
@@ -68,7 +69,6 @@ class StageLoader {
 
 	private String readLevelFile(FileHandle levelFile) {
 		List<String> lines = Arrays.asList(levelFile.readString().split("\n"));
-		Collections.reverse(lines);
 		return lines.stream().collect(Collectors.joining("\n"));
 	}
 
