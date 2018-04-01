@@ -54,6 +54,23 @@ class LevelGenerator {
 		return toLevelString(hourglass);
 	}
 
+	String generateArrow() {
+		Bounds bounds = new Bounds(COLS / 3, COLS / 2, ROWS / 3, ROWS / 2);
+
+		List<String> top = generateTriangle(bounds, wordSize);
+
+		bounds = new Bounds(COLS / 6, COLS / 4, ROWS / 3, ROWS / 2);
+		List<String> bottom = generateRectangle(bounds, wordSize).stream()
+				.filter(row -> countLetters(row) > 5)
+				.collect(Collectors.toList());
+
+		List<String> arrow = new ArrayList<>();
+		arrow.addAll(top);
+		arrow.addAll(bottom);
+
+		return toLevelString(arrow);
+	}
+
 	private String toLevelString(List<String> levelShape) {
 		return levelShape.stream()
 				.map(row -> dots((COLS - row.length()) / 2) + row)

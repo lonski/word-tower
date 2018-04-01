@@ -12,7 +12,6 @@ class GeneratorUtils {
 	static final int COLS = 76;
 
 	static List<String> generateTriangle(Bounds bounds, WordSize size) {
-
 		List<String> triangle = new ArrayList<>();
 		int reductionPerFloor = ((bounds.width - size.min - 2) / bounds.height);
 		for (int floorIdx = bounds.height; floorIdx > 0; floorIdx--) {
@@ -30,6 +29,24 @@ class GeneratorUtils {
 			triangle.add(row + dots(reduction / 2));
 		}
 		return triangle;
+	}
+
+	static List<String> generateRectangle(Bounds bounds, WordSize size) {
+		List<String> rectangle = new ArrayList<>();
+		for (int floorIdx = bounds.height; floorIdx > 0; floorIdx--) {
+			StringBuilder row = new StringBuilder();
+			while (row.length() < bounds.width) {
+				int randomizedSize = size.randomSize();
+				int remainingRowSize = bounds.width - row.length();
+				int wordSize = Math.min(remainingRowSize, randomizedSize) + 2;
+				if ((remainingRowSize - wordSize) <= (2 + size.min)) {
+					wordSize = Math.max(remainingRowSize, size.min + 2);
+				}
+				row.append("[").append(colons(wordSize - 2)).append("]");
+			}
+			rectangle.add(row.toString());
+		}
+		return rectangle;
 	}
 
 	static String dots(int count) {

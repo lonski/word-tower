@@ -20,6 +20,7 @@ public class GeneratedStageIterator implements StageIterator {
 		this.loader = loader;
 		this.lastLevel = -1;
 		this.levels = Arrays.asList(
+				generator::generateArrow,
 				generator::generateHourglass,
 				generator::generateNuke
 		);
