@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-class StageLoader {
+public class StageLoader {
 
 	private final Dictionary dictionary;
 	private final WorldManager worldManager;
@@ -20,7 +20,7 @@ class StageLoader {
 		return load(readLevelFile(file));
 	}
 
-	PlayStage load(String level) {
+	public PlayStage load(String level) {
 		List<Word> words = createWords(Arrays.asList(level.split("\n")));
 		worldManager.update(1 / 30f); //single update to prevent collision detection of the words on the floor
 		return new PlayStage(words, worldManager);

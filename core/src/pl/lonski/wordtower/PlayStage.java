@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-class PlayStage extends Stage {
+public class PlayStage extends Stage {
 
 	private Random random;
 	private PlayerData playerData;
