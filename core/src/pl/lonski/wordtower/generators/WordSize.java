@@ -1,6 +1,7 @@
 package pl.lonski.wordtower.generators;
 
-import java.util.concurrent.ThreadLocalRandom;
+
+import pl.lonski.wordtower.RandomUtils;
 
 public class WordSize {
 
@@ -13,7 +14,7 @@ public class WordSize {
 	}
 
 	int randomSize() {
-		return ThreadLocalRandom.current().nextInt(min, max);
+		return RandomUtils.nextInt(min, max);
 	}
 
 }

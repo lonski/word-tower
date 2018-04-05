@@ -14,6 +14,10 @@ class PredefinedStageIterator implements StageIterator {
 		this.lastLevel = -1;
 	}
 
+	public boolean isLastLevel() {
+		return (lastLevel + 1) == levelCount;
+	}
+
 	@Override
 	public boolean hasNext() {
 		return true;

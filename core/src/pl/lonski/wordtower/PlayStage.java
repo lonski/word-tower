@@ -2,9 +2,7 @@ package pl.lonski.wordtower;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
-import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class PlayStage extends Stage {
 
-	private Random random;
 	private PlayerData playerData;
 	private Label score;
 	private Label wordCounter;
@@ -26,7 +23,6 @@ public class PlayStage extends Stage {
 	private List<Word> words;
 
 	PlayStage(List<Word> words, WorldManager worldManager) {
-		this.random = new SecureRandom();
 		this.words = words;
 		this.words.forEach(this::addActor);
 
@@ -122,8 +118,8 @@ public class PlayStage extends Stage {
 
 		BonusLabel(int bonus, Actor word) {
 			super(bonus + " bonus!", bonusLabelStyle);
-			setX(word.getX() + random.nextInt((int) word.getWidth()) * (random.nextBoolean() ? 1 : -1));
-			setY(word.getY() + random.nextInt((int) word.getHeight()) * (random.nextBoolean() ? 1 : -1));
+			setX(word.getX() + RandomUtils.nextInt((int) word.getWidth()) * (RandomUtils.nextBoolean() ? 1 : -1));
+			setY(word.getY() + RandomUtils.nextInt((int) word.getHeight()) * (RandomUtils.nextBoolean() ? 1 : -1));
 			addAction(sequence(fadeOut(0.001f), fadeIn(0.2f), fadeOut(1f), removeActor()));
 		}
 	}
