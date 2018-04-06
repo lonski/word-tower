@@ -22,7 +22,3 @@ Enter project root and type:
 <img src="https://raw.githubusercontent.com/lonski/word-tower/master/screenshots/Screenshot_20180322_232858.png" width="400">
 
 </p>
-
-## TODO
-
-Next step: implement procedral level generation
