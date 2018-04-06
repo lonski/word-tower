@@ -10,12 +10,13 @@ import pl.lonski.wordtower.StageLoader;
 
 public class GeneratedStageIterator implements StageIterator {
 
-	private final StageLoader loader;
+	private StageLoader loader;
 
 	private List<Supplier<String>> levels;
 	private int lastLevel;
 
-	public GeneratedStageIterator(StageLoader loader) {
+	@Override
+	public void initialize(StageLoader loader) {
 		LevelGenerator generator = new LevelGenerator(new WordSize(2, 10));
 		this.loader = loader;
 		this.lastLevel = -1;
@@ -37,4 +38,5 @@ public class GeneratedStageIterator implements StageIterator {
 		String level = levels.get(lastLevel).get();
 		return loader.load(level);
 	}
+
 }

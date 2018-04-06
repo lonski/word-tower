@@ -4,4 +4,6 @@ import java.util.Iterator;
 
 public interface StageIterator extends Iterator<PlayStage> {
 
+	void initialize(StageLoader loader);
+
 }

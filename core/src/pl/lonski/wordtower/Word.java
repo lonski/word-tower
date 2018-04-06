@@ -13,30 +13,39 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 class Word extends Group {
+
+	private static final Label.LabelStyle STYLE_UNTYPED =
+			new Label.LabelStyle(SkinProvider.getSkin().getFont("currier-font"), Color.GREEN);
+	private static final Label.LabelStyle STYLE_TYPED =
+			new Label.LabelStyle(SkinProvider.getSkin().getFont("currier-font"), Color.RED);
 
 	private final Body body;
 	private final Box box;
 	private final List<Label> letters;
-	private final Label.LabelStyle styleUntyped;
-	private final Label.LabelStyle styleTyped;
 	private final String text;
 
 	private int characterIdx;
 
+	public static float widthOf(String text) {
+		float textWidth = 10;
+		for (char c : text.toCharArray()) {
+			Label letter = new Label(String.valueOf(c), STYLE_UNTYPED);
+			letter.setPosition(textWidth, 10);
+			textWidth += letter.getWidth();
+		}
+		return textWidth + 10;
+	}
+
 	Word(World world, String text, float x, float y) {
 		this.letters = new ArrayList<>();
 		this.text = text;
-		Skin skin = SkinProvider.getSkin();
-		this.styleTyped = new Label.LabelStyle(skin.getFont("currier-font"), Color.RED);
-		this.styleUntyped = new Label.LabelStyle(skin.getFont("currier-font"), Color.GREEN);
 
 		float textWidth = 10;
 		float textHeight = 0;
 		for (char c : text.toCharArray()) {
-			Label letter = new Label(String.valueOf(c), styleUntyped);
+			Label letter = new Label(String.valueOf(c), STYLE_UNTYPED);
 			letter.setPosition(textWidth, 10);
 			textWidth += letter.getWidth();
 			textHeight = Math.max(textHeight, letter.getHeight());
@@ -69,7 +78,7 @@ class Word extends Group {
 
 	void eatCharacter(char character) {
 		if (!isCompleted() && character == text.charAt(characterIdx)) {
-			letters.get(characterIdx).setStyle(styleTyped);
+			letters.get(characterIdx).setStyle(STYLE_TYPED);
 			++characterIdx;
 		} else if (characterIdx > 0) {
 			reset();
@@ -81,7 +90,7 @@ class Word extends Group {
 	}
 
 	void reset() {
-		letters.forEach(w -> w.setStyle(styleUntyped));
+		letters.forEach(w -> w.setStyle(STYLE_UNTYPED));
 		characterIdx = 0;
 	}
 
@@ -113,6 +122,10 @@ class Word extends Group {
 	public boolean remove() {
 		body.setUserData(new BodyUserData().setDeleteFlag(true));
 		return super.remove();
+	}
+
+	public String getText() {
+		return text;
 	}
 
 	static class Box extends Actor {

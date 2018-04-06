@@ -3,25 +3,34 @@ package pl.lonski.wordtower;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-
-import pl.lonski.wordtower.generators.GeneratedStageIterator;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class WordTower extends ApplicationAdapter {
 
 	private WorldManager world;
-	private PlayStage stage;
+	private Stage currentStage;
+	private PlayStage play;
 	private StageIterator iterator;
 	private PlayerData playerData;
-	private StageLoader loader;
+
+	public void startGame(StageIterator iterator) {
+		world = new WorldManager();
+		playerData = new PlayerData();
+		Dictionary dictionary = new Dictionary(Gdx.files.internal("words.txt"));
+		iterator.initialize(new StageLoader(dictionary, world));
+		this.iterator = iterator;
+		nextLevel(iterator.next());
+	}
+
+	public WorldManager getWorldManager() {
+		return world;
+	}
 
 	@Override
 	public void create() {
 		world = new WorldManager();
-		Dictionary dictionary = new Dictionary(Gdx.files.internal("words.txt"));
-		loader = new StageLoader(dictionary, world);
-		iterator = new PredefinedStageIterator(loader);
-		playerData = new PlayerData();
-		changeStage(iterator.next());
+
+		changeStage(new MenuStage(this));
 	}
 
 	@Override
@@ -32,28 +41,29 @@ public class WordTower extends ApplicationAdapter {
 		float delta = Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f);
 
 		world.update(delta);
-		stage.act(delta);
+		currentStage.act(delta);
 
-		stage.draw();
-//		world.debugDraw();
+		currentStage.draw();
+		//world.debugDraw();
 
-		if (stage.getRemainingWordsCount() == 0) {
-			changeStage(iterator.next());
-			if (iterator instanceof PredefinedStageIterator) {
-				if (((PredefinedStageIterator) iterator).isLastLevel()) {
-					iterator = new GeneratedStageIterator(loader);
-				}
-			}
+		if (currentStage instanceof PlayStage && play.getRemainingWordsCount() == 0) {
+			nextLevel(iterator.next());
 		}
 	}
 
-	private void changeStage(PlayStage stage) {
-		this.stage = stage;
-		stage.setPlayerData(playerData);
+	private void changeStage(Stage stage) {
+		currentStage = stage;
 		Gdx.input.setInputProcessor(stage);
+	}
+
+	private void nextLevel(PlayStage stage) {
+		this.play = stage;
+		stage.setPlayerData(playerData);
+		changeStage(stage);
 	}
 
 	@Override
 	public void dispose() {
 	}
+
 }

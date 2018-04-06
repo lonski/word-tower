@@ -8,12 +8,13 @@ import com.badlogic.gdx.files.FileHandle;
 
 class PredefinedStageIterator implements StageIterator {
 
-	private final StageLoader loader;
-	private final int levelCount;
+	private StageLoader loader;
+	private int levelCount;
 	private int lastLevel;
 	private FileHandle[] levels;
 
-	PredefinedStageIterator(StageLoader loader) {
+	@Override
+	public void initialize(StageLoader loader) {
 		this.loader = loader;
 		this.levels = Gdx.files.internal("levels").list();
 		Arrays.sort(this.levels, Comparator.comparing(FileHandle::name));
@@ -35,4 +36,5 @@ class PredefinedStageIterator implements StageIterator {
 		lastLevel = (lastLevel + 1) % levelCount;
 		return loader.load(levels[lastLevel]);
 	}
+
 }
