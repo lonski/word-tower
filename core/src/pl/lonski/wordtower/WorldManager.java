@@ -10,19 +10,27 @@ import com.badlogic.gdx.utils.Array;
 
 class WorldManager {
 
+	public static final float PIXELS_TO_METERS = 10f;
+
 	private World world;
 	private Box2DDebug debugRender;
 
 	private Body floor;
+	private Body ceil;
 	private Body leftWall;
 	private Body rightWall;
 
 	WorldManager() {
-		world = new World(new Vector2(0, -100), true);
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		this(new Vector2(0, -10));
+	}
+
+	WorldManager(Vector2 gravity) {
+		world = new World(gravity, true);
+		float w = Gdx.graphics.getWidth() / PIXELS_TO_METERS;
+		float h = Gdx.graphics.getHeight() / PIXELS_TO_METERS;
 
 		floor = createWall(0, 0, w, 1);
+		ceil = createWall(0, h, w, 1);
 		leftWall = createWall(0, 0, 1, h);
 		rightWall = createWall(w, 0, 1, h);
 

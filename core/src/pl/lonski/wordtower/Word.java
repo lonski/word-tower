@@ -1,5 +1,7 @@
 package pl.lonski.wordtower;
 
+import static pl.lonski.wordtower.WorldManager.PIXELS_TO_METERS;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +74,7 @@ class Word extends Group {
 
 	@Override
 	public void act(float delta) {
-		setPosition(body.getPosition().x, body.getPosition().y);
+		setPosition(body.getPosition().x * PIXELS_TO_METERS, body.getPosition().y * PIXELS_TO_METERS);
 		setRotation((float) Math.toDegrees(body.getAngle()));
 	}
 
@@ -97,14 +99,14 @@ class Word extends Group {
 	private Body createBody(World world) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.position.set(getX(), getY());
+		bodyDef.position.set(getX() / PIXELS_TO_METERS, getY() / PIXELS_TO_METERS);
 
 		Body body = world.createBody(bodyDef);
 
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(
-				getWidth() / 2, getHeight() / 2,
-				new Vector2(getWidth() / 2, getHeight() / 2),
+				getWidth() / 2 / PIXELS_TO_METERS, getHeight() / 2 / PIXELS_TO_METERS,
+				new Vector2(getWidth() / 2 / PIXELS_TO_METERS, getHeight() / 2 / PIXELS_TO_METERS),
 				0
 		);
 

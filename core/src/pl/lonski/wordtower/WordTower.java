@@ -3,6 +3,7 @@ package pl.lonski.wordtower;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class WordTower extends ApplicationAdapter {
@@ -12,6 +13,21 @@ public class WordTower extends ApplicationAdapter {
 	private PlayStage play;
 	private StageIterator iterator;
 	private PlayerData playerData;
+
+	public void gameMenu() {
+		world = new WorldManager();
+		changeStage(new MenuStage(this));
+	}
+
+	public void choosePredefinedLevel() {
+		world = new WorldManager(new Vector2(0, 0));
+		changeStage(new ChooseLevelStage(this));
+	}
+
+	public void startLevel(String filename) {
+		startGame(new SinglePredefinedLevelIterator(Gdx.files.internal("levels/" + filename)));
+
+	}
 
 	public void startGame(StageIterator iterator) {
 		world = new WorldManager();
@@ -28,9 +44,7 @@ public class WordTower extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		world = new WorldManager();
-
-		changeStage(new MenuStage(this));
+		gameMenu();
 	}
 
 	@Override
@@ -44,7 +58,7 @@ public class WordTower extends ApplicationAdapter {
 		currentStage.act(delta);
 
 		currentStage.draw();
-		//world.debugDraw();
+//		world.debugDraw();
 
 		if (currentStage instanceof PlayStage && play.getRemainingWordsCount() == 0) {
 			nextLevel(iterator.next());

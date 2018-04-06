@@ -17,4 +17,8 @@ public class RandomUtils {
 	public static boolean nextBoolean() {
 		return random.nextBoolean();
 	}
+
+	public static float nextFloat(float min, float max) {
+		return random.nextFloat() * (max - min) + min;
+	}
 }
