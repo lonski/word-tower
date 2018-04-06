@@ -1,16 +1,23 @@
 package pl.lonski.wordtower;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 class PredefinedStageIterator implements StageIterator {
 
 	private final StageLoader loader;
 	private final int levelCount;
 	private int lastLevel;
+	private FileHandle[] levels;
 
-	PredefinedStageIterator(StageLoader loader, int levelCount) {
+	PredefinedStageIterator(StageLoader loader) {
 		this.loader = loader;
-		this.levelCount = levelCount;
+		this.levels = Gdx.files.internal("levels").list();
+		Arrays.sort(this.levels, Comparator.comparing(FileHandle::name));
+		this.levelCount = this.levels.length;
 		this.lastLevel = -1;
 	}
 
@@ -26,7 +33,6 @@ class PredefinedStageIterator implements StageIterator {
 	@Override
 	public PlayStage next() {
 		lastLevel = (lastLevel + 1) % levelCount;
-		String path = "levels/s" + (lastLevel + 1) + ".lev";
-		return loader.load(Gdx.files.internal(path));
+		return loader.load(levels[lastLevel]);
 	}
 }
