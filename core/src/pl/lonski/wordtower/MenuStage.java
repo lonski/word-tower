@@ -45,8 +45,7 @@ class MenuStage extends Stage {
 			if (word.isCompleted()) {
 				switch (word.getText()) {
 				case START_ALL:
-//					game.startGame(new MixedStageIterator());
-					game.startLevel("s1.lev");
+					game.startGame(new MixedStageIterator());
 					break;
 				case START_PREDEFINED:
 					game.startGame(new PredefinedStageIterator());

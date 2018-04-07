@@ -30,7 +30,6 @@ public class WordTower extends ApplicationAdapter {
 	}
 
 	public void startGame(StageIterator iterator) {
-		System.out.println("LOL");
 		world = new WorldManager();
 		playerData = new PlayerData();
 		Dictionary dictionary = new Dictionary(Gdx.files.internal("words.txt"));
