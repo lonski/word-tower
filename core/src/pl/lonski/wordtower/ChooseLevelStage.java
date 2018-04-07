@@ -1,9 +1,6 @@
 package pl.lonski.wordtower;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -16,8 +13,7 @@ class ChooseLevelStage extends Stage {
 		float screenWidth = Gdx.graphics.getWidth();
 		float screenHeight = Gdx.graphics.getHeight();
 
-		Arrays.stream(Gdx.files.internal("levels").list())
-				.map(FileHandle::name)
+		new LevelsList().getFileNames().stream()
 				.map(name -> new Word(game.getWorldManager().getWorld(), name, screenWidth / 2, screenHeight / 2))
 				.forEach(this::addActor);
 	}
