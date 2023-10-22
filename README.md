@@ -3,7 +3,7 @@ A word typing game. Type words visible on blocks on your keyboard to make them d
 
 ## Live web wersion
 
-[https://wordtower.lonski.pl](http://wordtower.lonski.pl)
+[http://wordtower.lonski.pl](http://wordtower.lonski.pl)
 
 ## Running
 
